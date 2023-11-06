@@ -3,6 +3,16 @@
 	"EngineAssociation": "5.2",
 	"Category": "",
 	"Description": "",
+	"Modules": [
+		{
+			"Name": "MathCourse",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
 	"Plugins": [
 		{
 			"Name": "OculusVR",
@@ -62,6 +72,7 @@
 	"TargetPlatforms": [
 		"WindowsNoEditor",
 		"WindowsNoEditorWin32",
-		"Windows"
+		"Windows",
+		"HoloLens"
 	]
 }
