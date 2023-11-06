@@ -2,9 +2,6 @@
 
 
 #include "Utils/ActorRelationsStatics.h"
-#include "Kismet/KismetSystemLibrary.h"
-
-#define PRINT(msg) UKismetSystemLibrary::PrintString(Actor, msg);
 
 bool UActorRelationsStatics::IsInFrontOf(AActor* Actor, AActor* OtherActor)
 {
@@ -39,27 +36,27 @@ uint8 UActorRelationsStatics::GetTransformRelations(AActor* Actor, AActor* Other
 	uint8 Flags;
 	if (IsInFrontOf(Actor, OtherActor))
 	{
-		Flags = Flags |= (uint8)(ETransformRelations::TR_FRONT);
+		Flags |= (uint8)(ETransformRelations::TR_FRONT);
 	}
 	if (IsRightOf(Actor, OtherActor))
 	{
-		Flags = Flags |= (uint8)(ETransformRelations::TR_RIGHT);
+		Flags |= (uint8)(ETransformRelations::TR_RIGHT);
 	}
 	if (IsAbove(Actor, OtherActor))
 	{
-		Flags = Flags |= (uint8)(ETransformRelations::TR_ABOVE);
+		Flags |= (uint8)(ETransformRelations::TR_ABOVE);
 	}
 	if (Params.NearbyDistance > FVector::Distance(Actor->GetActorLocation(), OtherActor->GetActorLocation()))
 	{
-		Flags = Flags |= (uint8)(ETransformRelations::TR_NEAR);
+		Flags |= (uint8)(ETransformRelations::TR_NEAR);
 	}
 	if (FacingSameDirection(Actor, OtherActor))
 	{
-		Flags = Flags |= (uint8)(ETransformRelations::TR_FACINGSAME);
+		Flags |= (uint8)(ETransformRelations::TR_FACINGSAME);
 	}
 	if (AngleFromForward(Actor, OtherActor, true) <= Params.DetectionAngleInDegrees)
 	{
-		Flags = Flags |= (uint8)(ETransformRelations::TR_DETECTED);
+		Flags |= (uint8)(ETransformRelations::TR_DETECTED);
 	}
 	return Flags;
 }

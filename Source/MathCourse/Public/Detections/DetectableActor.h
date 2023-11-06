@@ -8,7 +8,12 @@
 #include "DetectableActor.generated.h"
 
 class UStaticMeshComponent;
+class UMaterialInstanceDynamic;
+class ADetectionActor;
 
+/** This class functions only when a DetectionActor exists in the level
+*	which can supply values to its RelationFlags.
+*/
 UCLASS()
 class MATHCOURSE_API ADetectableActor : public AActor
 {
@@ -27,7 +32,16 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UStaticMeshComponent> RootMesh;
 
+	UPROPERTY()
+	TObjectPtr<ADetectionActor> DetectionActor;
+
+	UPROPERTY()
+	TObjectPtr<UMaterialInstanceDynamic> DynamicMaterial;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (Bitmask, BitmaskEnum = "/Script/MathCourse.ETransformRelations"))
 	uint8 RelationFlags;	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float DetectedShiftSpeed = 1.0f;
 
 };

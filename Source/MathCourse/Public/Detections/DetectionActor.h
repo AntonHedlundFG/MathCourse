@@ -10,6 +10,10 @@
 class UStaticMeshComponent;
 class ADetectableActor;
 
+/**  
+* This class should be used as a singleton, and is the "source" actor for transform
+* relationship detections.
+*/
 UCLASS()
 class MATHCOURSE_API ADetectionActor : public AActor
 {
