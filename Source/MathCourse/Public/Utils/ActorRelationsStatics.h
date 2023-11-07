@@ -52,4 +52,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	static uint8 GetTransformRelations(AActor* Actor, AActor* OtherActor, FTransformRelationParams& Params);
 	
+	UFUNCTION(BlueprintCallable)
+	static bool FlagsContainRelation(uint8 Flags, ETransformRelations Relation);
 };

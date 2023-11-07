@@ -7,12 +7,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
-
-// Sets default values
 ADetectableActor::ADetectableActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = true;
 
 	RootMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("RootMesh"));
 	SetRootComponent(RootMesh);
@@ -22,7 +19,6 @@ ADetectableActor::ADetectableActor()
 
 }
 
-// Called when the game starts or when spawned
 void ADetectableActor::BeginPlay()
 {
 	Super::BeginPlay();
@@ -64,3 +60,25 @@ void ADetectableActor::Tick(float DeltaTime)
 	}
 }
 
+/*	Returns true if damage was backstab; deals damage either way.
+*	Backstab multiplier is defined by recipient.
+*/
+bool ADetectableActor::TryDealBackstabDamage(float Damage, AActor* DamageCauser)
+{
+	FTransformRelationParams Params;
+	Params.DetectionAngleInDegrees = (360.0f - BackstabAngle) / 2.0f;
+	const uint8 Relations = UActorRelationsStatics::GetTransformRelations(this, DamageCauser, Params);
+	bool bIsBackstab = !UActorRelationsStatics::FlagsContainRelation(Relations, ETransformRelations::TR_DETECTED);
+	if (bIsBackstab)
+	{
+		Damage *= BackstabMultiplier;
+	}
+	
+	//Just printing the outcome since this is not really about the damage.
+	FString DamageString = GetName() + FString(" took ") + (bIsBackstab ?
+		FString::SanitizeFloat(Damage) + FString(" backstab damage.") :
+		FString::SanitizeFloat(Damage) + FString(" regular damage."));
+	UKismetSystemLibrary::PrintString(this, DamageString, true, false, FLinearColor::Red, 5.0f);
+
+	return bIsBackstab;
+}

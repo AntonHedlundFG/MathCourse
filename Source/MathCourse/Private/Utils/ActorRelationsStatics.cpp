@@ -60,3 +60,8 @@ uint8 UActorRelationsStatics::GetTransformRelations(AActor* Actor, AActor* Other
 	}
 	return Flags;
 }
+
+bool UActorRelationsStatics::FlagsContainRelation(uint8 Flags, ETransformRelations Relation)
+{
+	return Flags & (uint8)(Relation);
+}

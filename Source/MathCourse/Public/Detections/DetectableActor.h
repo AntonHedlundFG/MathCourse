@@ -23,8 +23,15 @@ public:
 	ADetectableActor();
 	virtual void Tick(float DeltaTime) override;
 
+	//	This is called by a DetectionActor each frame.
 	UFUNCTION()
 	void SetRelationFlags(uint8 NewFlags) { RelationFlags = NewFlags; }
+
+	/*	Returns true if damage was backstab; deals damage either way.
+	*	Backstab multiplier is defined by recipient.
+	*/
+	UFUNCTION(BlueprintCallable)
+	bool TryDealBackstabDamage(float Damage, AActor* DamageCauser);
 
 protected:
 	virtual void BeginPlay() override;
@@ -32,7 +39,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UStaticMeshComponent> RootMesh;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<ADetectionActor> DetectionActor;
 
 	UPROPERTY()
@@ -41,7 +48,16 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (Bitmask, BitmaskEnum = "/Script/MathCourse.ETransformRelations"))
 	uint8 RelationFlags;	
 
+	/*	Sets the speed of the visibility shift that depends on whether the DetectionActor
+	*	Can see this actor or not.
+	*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float DetectedShiftSpeed = 1.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float BackstabMultiplier = 2.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float BackstabAngle = 120.0f;
 
 };
